@@ -4,11 +4,19 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Enter Drawing Name"
-        android:textAppearance="?android:textAppearanceMedium" />
+<!--    <TextView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Enter Drawing Name"-->
+<!--        android:textAppearance="?android:textAppearanceMedium" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/textView_selected_image"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:textSize="14sp"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:visibility="visible" />-->
 
     <EditText
         android:id="@+id/edittext_drawing_name"
@@ -18,5 +26,11 @@
         android:imeOptions="actionDone"
         android:maxLines="1"
         android:hint="Drawing Name" />
+
+    <Button
+        android:id="@+id/button_select_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select Image" />
 
 </LinearLayout>

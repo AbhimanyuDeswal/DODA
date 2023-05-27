@@ -3,54 +3,43 @@ package com.abhimanyu.doda;
 public class Drawing {
     private String id;
     private String name;
-    private String additionTime;
+    private String additionTime; // Updated to String type
     private int markerCount;
+    private String imageUrl;
 
     public Drawing() {
-        // Empty constructor needed for Firebase database operations
+        // Default constructor required for Firebase
     }
 
-    public Drawing(String id, String name, long additionTime, int markerCount) {
+    public Drawing(String id, String name, String additionTime, int markerCount, String imageUrl) {
         this.id = id;
         this.name = name;
-        this.additionTime = String.valueOf(additionTime);
+        this.additionTime = additionTime;
         this.markerCount = markerCount;
+        this.imageUrl = imageUrl;
     }
-
-//    public Drawing(String drawingId, String drawingName, long currentTimeMillis, int markerCount) {
-//    }
-
-    // Getters and setters for the Drawing class
 
     public String getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getAdditionTime() {
         return additionTime;
-    }
-
-    public void setAdditionTime(String additionTime) {
-        this.additionTime = additionTime;
     }
 
     public int getMarkerCount() {
         return markerCount;
     }
 
-    public void setMarkerCount(int markerCount) {
-        this.markerCount = markerCount;
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }
