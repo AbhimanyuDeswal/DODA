@@ -44,11 +44,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
     private DrawingAdapter drawingAdapter;
     private DatabaseReference drawingsRef;
-
-    private FloatingActionButton addDrawingButton;
 
     private static final int PICK_IMAGE_REQUEST = 1;
 
@@ -63,8 +60,8 @@ public class MainActivity extends AppCompatActivity {
         drawingsRef = FirebaseDatabase.getInstance().getReference("drawings");
 
         // Initialize RecyclerView and its layout manager
-        recyclerView = findViewById(R.id.recyclerview_drawings);
-        drawingAdapter = new DrawingAdapter();
+        RecyclerView recyclerView = findViewById(R.id.recyclerview_drawings);
+        drawingAdapter = new DrawingAdapter(MainActivity.this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(drawingAdapter);
 
@@ -72,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         fetchDrawings();
 
         // Initialize the addDrawingButton
-        addDrawingButton = findViewById(R.id.fab_add_drawing);
+        FloatingActionButton addDrawingButton = findViewById(R.id.fab_add_drawing);
         addDrawingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

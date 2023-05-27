@@ -1,12 +1,17 @@
 package com.abhimanyu.doda;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -16,21 +21,26 @@ import java.util.Locale;
 
 public class DrawingAdapter extends RecyclerView.Adapter<DrawingAdapter.DrawingViewHolder> {
 
+    private Context context;
     private List<Drawing> drawings = new ArrayList<>();
     private static final long MINUTE_MILLIS = 60 * 1000;
     private static final long HOUR_MILLIS = 60 * MINUTE_MILLIS;
     private static final long DAY_MILLIS = 24 * HOUR_MILLIS;
     private static final long WEEK_MILLIS = 7 * DAY_MILLIS;
 
+    public DrawingAdapter(Context context) {
+        this.context = context;
+    }
+
 
     public void setDrawings(List<Drawing> drawings) {
         this.drawings = drawings;
         notifyDataSetChanged();
     }
-    public void addDrawing(Drawing drawing) {
-        drawings.add(0, drawing);
-        notifyItemInserted(0);
-    }
+//    public void addDrawing(Drawing drawing) {
+//        drawings.add(0, drawing);
+//        notifyItemInserted(0);
+//    }
     @NonNull
     @Override
     public DrawingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -52,8 +62,15 @@ public class DrawingAdapter extends RecyclerView.Adapter<DrawingAdapter.DrawingV
             @Override
             public void onClick(View v) {
                 // Handle click event, e.g., navigate to drawing details activity
+                // Launch the DrawingDetailsActivity and pass the drawing ID
+                Intent intent = new Intent(v.getContext(), DrawingDetailsActivity.class);
+                intent.putExtra("imageURL", drawing.getImageUrl());
+                v.getContext().startActivity(intent);
             }
         });
+        Glide.with(context)
+                .load(drawing.getImageUrl())
+                .into(holder.thumbnailImageView);
     }
 
     @Override
@@ -65,12 +82,14 @@ public class DrawingAdapter extends RecyclerView.Adapter<DrawingAdapter.DrawingV
         TextView drawingNameTextView;
         TextView additionTimeTextView;
         TextView markerCountTextView;
+        ImageView thumbnailImageView;
 
         public DrawingViewHolder(@NonNull View itemView) {
             super(itemView);
             drawingNameTextView = itemView.findViewById(R.id.textview_drawing_name);
             additionTimeTextView = itemView.findViewById(R.id.textview_addition_time);
             markerCountTextView = itemView.findViewById(R.id.textview_marker_count);
+            thumbnailImageView = itemView.findViewById(R.id.imageview_thumbnail);
         }
     }
 
@@ -95,6 +114,5 @@ public class DrawingAdapter extends RecyclerView.Adapter<DrawingAdapter.DrawingV
             return sdf.format(new Date(timeInMillis));
         }
     }
-
 
 }
