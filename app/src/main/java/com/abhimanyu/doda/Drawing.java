@@ -10,12 +10,15 @@ public class Drawing {
         // Empty constructor needed for Firebase database operations
     }
 
-    public Drawing(String id, String name, String additionTime, int markerCount) {
+    public Drawing(String id, String name, long additionTime, int markerCount) {
         this.id = id;
         this.name = name;
-        this.additionTime = additionTime;
+        this.additionTime = String.valueOf(additionTime);
         this.markerCount = markerCount;
     }
+
+//    public Drawing(String drawingId, String drawingName, long currentTimeMillis, int markerCount) {
+//    }
 
     // Getters and setters for the Drawing class
 

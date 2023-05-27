@@ -1,13 +1,21 @@
 package com.abhimanyu.doda;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private List<Drawing> drawingList;
     private DatabaseReference drawingsRef;
 
+    private FloatingActionButton addDrawingButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +41,15 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialize Firebase Database reference
         drawingsRef = FirebaseDatabase.getInstance().getReference("drawings");
+
+        // Initialize the addDrawingButton
+        addDrawingButton = findViewById(R.id.fab_add_drawing);
+        addDrawingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAddDrawingDialog();
+            }
+        });
 
         // Initialize RecyclerView and its layout manager
         recyclerView = findViewById(R.id.recyclerview_drawings);
@@ -76,5 +95,57 @@ public class MainActivity extends AppCompatActivity {
                 // Handle database error if necessary
             }
         });
+    }
+
+    private void showAddDrawingDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Add Drawing");
+
+        // Create a custom layout for the dialog
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_add_drawing, null);
+        final EditText nameEditText = view.findViewById(R.id.edittext_drawing_name);
+        builder.setView(view);
+
+        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String drawingName = nameEditText.getText().toString().trim();
+                if (!drawingName.isEmpty()) {
+                    addDrawingToDatabase(drawingName);
+                }
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.create().show();
+    }
+
+    private void addDrawingToDatabase(String drawingName) {
+        // Generate a unique key for the new drawing
+        String drawingId = drawingsRef.push().getKey();
+
+        // Create a new Drawing object
+        Drawing drawing = new Drawing(drawingId, drawingName, System.currentTimeMillis(), 0);
+
+        // Save the drawing to the Firebase Database
+        drawingsRef.child(drawingId).setValue(drawing)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(MainActivity.this, "Drawing added successfully!", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(MainActivity.this, "Failed to add drawing. Please try again.", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }
