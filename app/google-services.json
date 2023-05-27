@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "58819106711",
+    "project_id": "doda-1e3d2",
+    "storage_bucket": "doda-1e3d2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:58819106711:android:4eaa6214931ec1aaa016d2",
+        "android_client_info": {
+          "package_name": "com.abhimanyu.doda"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnajcjvg61S-uSo1azAN5HdI_GazfPO9g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
